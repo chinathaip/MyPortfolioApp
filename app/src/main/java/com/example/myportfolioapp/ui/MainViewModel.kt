@@ -1,9 +1,6 @@
 package com.example.myportfolioapp.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.myportfolioapp.domain.GetMyInfoUseCase
 import com.example.myportfolioapp.ui.model.InfoGroupToMyInfoModelMapper
 import com.example.myportfolioapp.ui.model.MyInfoModel
@@ -19,8 +16,22 @@ class MainViewModel(
     private val _listOfInfo = MutableLiveData<List<MyInfoModel>>()
     val listOfInfo: LiveData<List<MyInfoModel>> = _listOfInfo
 
+    private val _selectTab = MutableLiveData<Int>()
+    val selectTab: LiveData<Int> = _selectTab
+
+    val tabGroupName = _listOfInfo.map { list ->
+        list.filterIsInstance<MyInfoModel.Section>().map { it.sectionName }
+    }
+
+    var tabGroupPosition = mapOf<String, Int>()
+
     init {
         getMyInfo()
+    }
+
+    fun handleTabSelection(groupName: String, isScrollDown: Boolean) {
+        _selectTab.value =
+            if (isScrollDown) tabGroupPosition[groupName] else tabGroupPosition[groupName]?.minus(1)
     }
 
     private fun getMyInfo() {
@@ -31,6 +42,13 @@ class MainViewModel(
             response.whenNotNullAndEmpty {
                 _listOfInfo.value = InfoGroupToMyInfoModelMapper.map(it)
             }
+            locateGroupPosition()
         }
+    }
+
+    private fun locateGroupPosition() {
+        tabGroupPosition =
+            tabGroupName.value?.mapIndexed { index, groupName -> groupName to index }?.toMap()
+                ?: mapOf()
     }
 }
