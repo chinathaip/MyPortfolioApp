@@ -5,5 +5,5 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class MyInfoViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
 
-    abstract fun bindData(data: T)
+    abstract fun bindData(data: T, position: Int)
 }

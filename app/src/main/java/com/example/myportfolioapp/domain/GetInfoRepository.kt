@@ -1,8 +1,8 @@
 package com.example.myportfolioapp.domain
 
-import com.example.myportfolioapp.data.InfoGroup
+import com.example.myportfolioapp.data.Info
 
 interface GetInfoRepository {
 
-    fun getInfo() : List<InfoGroup>
+    suspend fun getInfo() : Info
 }

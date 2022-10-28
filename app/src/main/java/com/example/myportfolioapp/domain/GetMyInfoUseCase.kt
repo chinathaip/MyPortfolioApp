@@ -4,7 +4,7 @@ import com.example.myportfolioapp.data.InfoGroup
 
 class GetMyInfoUseCase(private val getInfoRepository: GetInfoRepository) {
 
-    operator fun invoke(): List<InfoGroup> {
-        return getInfoRepository.getInfo()
+    suspend operator fun invoke(): List<InfoGroup> {
+        return getInfoRepository.getInfo().infoGroup
     }
 }

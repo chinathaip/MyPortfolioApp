@@ -55,5 +55,11 @@ dependencies {
     implementation "io.insert-koin:koin-core:$koin_version"
     implementation "io.insert-koin:koin-android:$koin_android_version"
 
+    //gson - json to data class converter
+    implementation 'com.google.code.gson:gson:2.8.9'
+
+    //coil - image download library
+    implementation "io.coil-kt:coil:0.8.0"
+
 
 }

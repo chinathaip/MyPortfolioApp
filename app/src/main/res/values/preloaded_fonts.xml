@@ -2,5 +2,7 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/aclonica</item>
+        <item>@font/cuprum</item>
+        <item>@font/cuprum_bold</item>
     </array>
 </resources>

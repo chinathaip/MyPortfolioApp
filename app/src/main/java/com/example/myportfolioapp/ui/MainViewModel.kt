@@ -19,11 +19,15 @@ class MainViewModel(
     private val _selectTab = MutableLiveData<Int>()
     val selectTab: LiveData<Int> = _selectTab
 
+    private val _scrollToGroup = MutableLiveData<Int>()
+    val scrollToGroup: LiveData<Int> = _scrollToGroup
+
     val tabGroupName = _listOfInfo.map { list ->
         list.filterIsInstance<MyInfoModel.Section>().map { it.sectionName }
     }
 
-    var tabGroupPosition = mapOf<String, Int>()
+    private var tabGroupMap = mapOf<String, Int>()
+    private var tabGroupPositionMap = mapOf<String, Int>()
 
     init {
         getMyInfo()
@@ -31,7 +35,11 @@ class MainViewModel(
 
     fun handleTabSelection(groupName: String, isScrollDown: Boolean) {
         _selectTab.value =
-            if (isScrollDown) tabGroupPosition[groupName] else tabGroupPosition[groupName]?.minus(1)
+            if (isScrollDown) tabGroupMap[groupName] else tabGroupMap[groupName]?.minus(1)
+    }
+
+    fun handleScrollToGroup(groupName: String) {
+        _scrollToGroup.value = tabGroupPositionMap[groupName]
     }
 
     private fun getMyInfo() {
@@ -47,8 +55,13 @@ class MainViewModel(
     }
 
     private fun locateGroupPosition() {
-        tabGroupPosition =
-            tabGroupName.value?.mapIndexed { index, groupName -> groupName to index }?.toMap()
-                ?: mapOf()
+        tabGroupMap =
+            tabGroupName.value.orEmpty().mapIndexed { index, groupName -> groupName to index }
+                .toMap()
+
+        tabGroupPositionMap = _listOfInfo.value.orEmpty().mapIndexed { index, data ->
+            ((data as? MyInfoModel.Section)?.takeIf { it.sectionName.isNotBlank() }?.sectionName
+                ?: "") to index
+        }.toMap()
     }
 }

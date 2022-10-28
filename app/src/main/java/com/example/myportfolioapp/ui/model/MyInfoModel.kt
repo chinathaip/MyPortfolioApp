@@ -8,5 +8,5 @@ sealed class MyInfoModel(val type: Int) {
     data class Description(val description: String) :
         MyInfoModel(MyInfoModelType.DESCRIPTION_SECTION_TYPE)
 
-    object ProfilePicture : MyInfoModel(MyInfoModelType.IMAGE_SECTION_TYPE)
+    data class Image (val imageUrl: String): MyInfoModel(MyInfoModelType.IMAGE_SECTION_TYPE)
 }
