@@ -23,7 +23,7 @@ class MainViewModel(
     val scrollToGroup: LiveData<Int> = _scrollToGroup
 
     val tabGroupName = _listOfInfo.map { list ->
-        list.filterIsInstance<MyInfoModel.Section>().map { it.sectionName }
+        list.filterIsInstance<MyInfoModel.GroupSection>().map { it.sectionName }
     }
 
     private var tabGroupMap = mapOf<String, Int>()
@@ -60,7 +60,7 @@ class MainViewModel(
                 .toMap()
 
         tabGroupPositionMap = _listOfInfo.value.orEmpty().mapIndexed { index, data ->
-            ((data as? MyInfoModel.Section)?.takeIf { it.sectionName.isNotBlank() }?.sectionName
+            ((data as? MyInfoModel.GroupSection)?.takeIf { it.sectionName.isNotBlank() }?.sectionName
                 ?: "") to index
         }.toMap()
     }

@@ -7,7 +7,7 @@ object InfoGroupToMyInfoModelMapper {
     fun map(infoGroup: List<InfoGroup>): List<MyInfoModel> {
         val newList = mutableListOf<MyInfoModel>()
         infoGroup.forEach { data ->
-            newList.add(MyInfoModel.Section(data.groupName))
+            newList.add(MyInfoModel.GroupSection(data.groupName))
             newList.add(MyInfoModel.Description(data.description))
             data.imageUrl?.whenNotBlank { newList.add(MyInfoModel.Image(it)) }
         }
